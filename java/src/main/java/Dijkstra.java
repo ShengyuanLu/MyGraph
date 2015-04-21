@@ -3,18 +3,9 @@ import java.util.stream.Collectors;
 
 public class Dijkstra{
 
-    public static void main(String[] args) {
-        Dijkstra dijkstra = new Dijkstra();
-        dijkstra.graph.put("A", Arrays.asList(new QElement("B", 1), new QElement("C", 10)));
-        dijkstra.graph.put("A", Arrays.asList(new QElement("B", 1), new QElement("C", 10)));
-        dijkstra.graph.put("B", Arrays.asList(new QElement("A", 1), new QElement("D", 2)));
-        dijkstra.graph.put("C", Arrays.asList(new QElement("A", 10), new QElement("D", 3)));
-        dijkstra.graph.put("D", Arrays.asList(new QElement("B", 2), new QElement("C", 3)));
-        System.out.println(dijkstra.dijkstra("A"));
-    }
-
     Map<String, List<QElement>> graph = new LinkedHashMap<>();
     List<QElement> bigSQueue = new ArrayList<>();
+    List<QElement> S = new ArrayList<>();
 
     static public class QElement {
         String name;
@@ -55,8 +46,6 @@ public class Dijkstra{
         }
     }
 
-    List<QElement> S = new ArrayList<>();
-
      String dijkstra(String start) {
         graph.forEach((k, v) -> {
             if (!k.equals(start)) {
@@ -71,7 +60,7 @@ public class Dijkstra{
             System.out.println("poll: " + top);
 
             List<QElement> adj = graph.get(top.name).stream()
-                    .filter(v -> bigSQueue.contains(v))
+                    .filter(bigSQueue::contains)
                     .collect(Collectors.toList());
 
             for (QElement v : adj) {
@@ -99,8 +88,4 @@ public class Dijkstra{
         return null;
     }
 
-
-    public void add(String name, List<QElement> q) {
-        graph.put(name, q);
-    }
 }
