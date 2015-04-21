@@ -64,11 +64,14 @@ public class Dijkstra {
                 System.out.println("top.distance: " + top.distance + ", v.getDistance(): " + v.distance);
                 Integer alt = top.distance + v.distance;
 
-                Node candi = bigSQueue.stream().filter(e -> e.equals(v)).findFirst().get();
-                int vDistance = candi.distance;
-                System.out.println("vDistance: " + vDistance);
+                Node candi = bigSQueue.stream()
+                        .filter(v::equals)
+                        .findFirst()
+                        .get();
+                int accumulate = candi.distance;
+                System.out.println("accumulate: " + accumulate);
 
-                if (alt < vDistance) {
+                if (alt < accumulate) {
                     candi.distance = alt;
                 }
             }
