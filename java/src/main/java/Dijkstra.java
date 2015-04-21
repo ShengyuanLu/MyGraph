@@ -1,32 +1,26 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Dijkstra{
+public class Dijkstra {
 
-    Map<String, List<QElement>> graph = new LinkedHashMap<>();
-    List<QElement> bigSQueue = new ArrayList<>();
-    List<QElement> S = new ArrayList<>();
+    Map<Node, List<Node>> graph = new LinkedHashMap<>();
+    List<Node> bigSQueue = new ArrayList<>();
 
-    static public class QElement {
+    static public class Node {
         String name;
         int distance = 0;
 
-        public QElement(int distance, String name) {
-            this.distance = distance;
-            this.name = name;
-        }
-
-        public QElement(String name, int distance) {
+        public Node(String name, int distance) {
             this.distance = distance;
             this.name = name;
         }
 
         @Override
         public String toString() {
-            return "QElement{" +
-                    "distance=" + distance +
-                    ", name=" + name +
-                    "}";
+            return "Node{" +
+                    "name='" + name + '\'' +
+                    ", distance=" + distance +
+                    '}';
         }
 
         @Override
@@ -34,7 +28,7 @@ public class Dijkstra{
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            QElement qElement = (QElement) o;
+            Node qElement = (Node) o;
 
             return name.equals(qElement.name);
 
@@ -46,28 +40,31 @@ public class Dijkstra{
         }
     }
 
-     String dijkstra(String start) {
-        graph.forEach((k, v) -> {
-            if (!k.equals(start)) {
-                bigSQueue.add(new QElement(Integer.MAX_VALUE, k));
-            }
-        });
+    Set<Node> dijkstra(String start) {
+        bigSQueue.addAll(
+                graph.keySet().stream()
+                        .filter(node -> !node.name.equals(start))
+                        .collect(Collectors.toList())
+        );
 
-        QElement top = new QElement(0, start);
-        S.add(top);
+        Node top = graph.keySet().stream()
+                .filter(node -> node.name.equals(start))
+                .findFirst()
+                .get();
+
         while (!bigSQueue.isEmpty()) {
-            top = S.get(S.size() - 1);
+
             System.out.println("poll: " + top);
 
-            List<QElement> adj = graph.get(top.name).stream()
+            List<Node> adj = graph.get(top).stream()
                     .filter(bigSQueue::contains)
                     .collect(Collectors.toList());
 
-            for (QElement v : adj) {
+            for (Node v : adj) {
                 System.out.println("top.distance: " + top.distance + ", v.getDistance(): " + v.distance);
                 Integer alt = top.distance + v.distance;
 
-                QElement candi = bigSQueue.stream().filter(e -> e.equals(v)).findFirst().get();
+                Node candi = bigSQueue.stream().filter(e -> e.equals(v)).findFirst().get();
                 int vDistance = candi.distance;
                 System.out.println("vDistance: " + vDistance);
 
@@ -77,15 +74,13 @@ public class Dijkstra{
             }
 
             System.out.println("--------- ");
-            QElement min = bigSQueue.stream().min((a, b) ->
-                            Integer.compare(a.distance, b.distance)
-            ).get();
-            bigSQueue.remove(min);
-            S.add(min);
+            top = bigSQueue.stream()
+                    .min((a, b) -> Integer.compare(a.distance, b.distance))
+                    .get();
+            bigSQueue.remove(top);
         }
 
-        System.out.println(S);
-        return null;
+        return graph.keySet();
     }
 
 }
