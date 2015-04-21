@@ -2,21 +2,25 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DijkstraTest {
-
-    Dijkstra dijkstra = new Dijkstra();
+    
 
     @Test
-    public void test(){
-        dijkstra.graph.put("A", Arrays.asList(new Dijkstra.QElement("B", 1), new Dijkstra.QElement("C", 10)));
-        dijkstra.graph.put("A", Arrays.asList(new Dijkstra.QElement("B", 1), new Dijkstra.QElement("C", 10)));
-        dijkstra.graph.put("B", Arrays.asList(new Dijkstra.QElement("A", 1), new Dijkstra.QElement("D", 2)));
-        dijkstra.graph.put("C", Arrays.asList(new Dijkstra.QElement("A", 10), new Dijkstra.QElement("D", 3)));
-        dijkstra.graph.put("D", Arrays.asList(new Dijkstra.QElement("B", 2), new Dijkstra.QElement("C", 3)));
-        System.out.println(dijkstra.dijkstra("A"));
+    public void test2() {
+        Dijkstra dijkstra = new Dijkstra();
 
-        Assert.assertTrue( dijkstra.S.stream()
-                .anyMatch(q -> q.name.equals("C") && q.distance==6) );
+        dijkstra.graph.put(new Dijkstra.Node("A", 0), Arrays.asList(new Dijkstra.Node("B", 1), new Dijkstra.Node("C", 10)));
+        dijkstra.graph.put(new Dijkstra.Node("B", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("A", 1), new Dijkstra.Node("D", 2)));
+        dijkstra.graph.put(new Dijkstra.Node("C", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("A", 10), new Dijkstra.Node("D", 3)));
+        dijkstra.graph.put(new Dijkstra.Node("D", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("B", 2), new Dijkstra.Node("C", 3)));
+
+        Set<Dijkstra.Node> result = dijkstra.dijkstra("A");
+        System.out.println(result);
+
+        Assert.assertTrue(
+                result.stream().anyMatch(n -> n.name.equals("C") && n.distance == 6));
     }
 }
