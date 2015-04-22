@@ -1,5 +1,4 @@
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -86,7 +85,7 @@ public class Dijkstra {
                     .get();
 
 
-            Node prev = FluentIterable.<Node>from(path.keySet())
+            Node prev = FluentIterable.from(path.keySet())
                     .last()
                     .get();
             path.put(top, prev);
@@ -111,7 +110,7 @@ public class Dijkstra {
         }
 
         result.add(
-                FluentIterable.<Node>from(path.keySet())
+                FluentIterable.from(path.keySet())
                 .first()
                 .get()
         );
