@@ -1,3 +1,5 @@
+import com.google.common.collect.FluentIterable;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,9 +19,7 @@ public class Dijkstra {
 
         @Override
         public String toString() {
-            return "Node{" +
-                    "name='" + name + '\'' +
-                    ", distance=" + distance +
+            return "Node{" +  name  + ", distance=" + distance +
                     '}';
         }
 
@@ -40,7 +40,9 @@ public class Dijkstra {
         }
     }
 
-    Set<Node> dijkstra(String start, String end) {
+    List<Node> dijkstra(String start, String end) {
+
+        LinkedHashMap<Node, Node> path = new LinkedHashMap<>();
         bigSQueue.addAll(
                 graph.keySet().stream()
                         .filter(node -> !node.name.equals(start))
@@ -52,6 +54,7 @@ public class Dijkstra {
                 .findFirst()
                 .get();
 
+        path.put(top, null);   //v -> k
         while (!bigSQueue.isEmpty()) {
 
             System.out.println("top: " + top);
@@ -80,14 +83,38 @@ public class Dijkstra {
             top = bigSQueue.stream()
                     .min((a, b) -> Integer.compare(a.distance, b.distance))
                     .get();
+
+
+            Node prev = FluentIterable.<Node>from(path.keySet())
+                    .last()
+                    .get();
+            path.put(top, prev);
             if (top.name.equals(end)) {
-                System.out.println(bigSQueue);
-                return null;
+               System.out.println("return:" + path);
+                return parse(path, top);
             }
             bigSQueue.remove(top);
         }
 
-        return graph.keySet();
+        System.out.println("return:" + path);
+        return null;//parse(path);
+    }
+
+    List<Node> parse(LinkedHashMap<Node, Node> path, Node end) {
+        List<Node> result = new ArrayList<>();
+
+        Node n = end;
+        while(path.get(n) != null) {
+            result.add(n);
+            n = path.get(n);
+        }
+
+        result.add(
+                FluentIterable.<Node>from(path.keySet())
+                .first()
+                .get()
+        );
+        return result;
     }
 
 }
