@@ -40,7 +40,7 @@ public class Dijkstra {
         }
     }
 
-    Set<Node> dijkstra(String start) {
+    Set<Node> dijkstra(String start, String end) {
         bigSQueue.addAll(
                 graph.keySet().stream()
                         .filter(node -> !node.name.equals(start))
@@ -54,7 +54,7 @@ public class Dijkstra {
 
         while (!bigSQueue.isEmpty()) {
 
-            System.out.println("poll: " + top);
+            System.out.println("top: " + top);
 
             List<Node> adj = graph.get(top).stream()
                     .filter(bigSQueue::contains)
@@ -80,6 +80,10 @@ public class Dijkstra {
             top = bigSQueue.stream()
                     .min((a, b) -> Integer.compare(a.distance, b.distance))
                     .get();
+            if (top.name.equals(end)) {
+                System.out.println(bigSQueue);
+                return null;
+            }
             bigSQueue.remove(top);
         }
 
