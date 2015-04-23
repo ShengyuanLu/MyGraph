@@ -85,7 +85,7 @@ public class Dijkstra {
                     .get();
 
 
-            Node prev = FluentIterable.<Node>from(path.keySet())
+            Node prev = FluentIterable.from(path.keySet())
                     .last()
                     .get();
             path.put(top, prev);
@@ -97,7 +97,7 @@ public class Dijkstra {
         }
 
         System.out.println("return:" + path);
-        return null;//parse(path);
+        return null;
     }
 
     List<Node> parse(LinkedHashMap<Node, Node> path, Node end) {
@@ -110,10 +110,11 @@ public class Dijkstra {
         }
 
         result.add(
-                FluentIterable.<Node>from(path.keySet())
+                FluentIterable.from(path.keySet())
                 .first()
                 .get()
         );
+        Collections.reverse(result);
         return result;
     }
 
