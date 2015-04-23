@@ -70,7 +70,7 @@ public class DFSTest {
     }
 
     @Test
-    public void test1() {
+    public void testTree() {
 
         DFS dfs = new DFS();
 
@@ -79,16 +79,25 @@ public class DFSTest {
         Node c = new Node("C", 0);
         Node d = new Node("D", 0);
 
+        /**
+         *  A -> B -> D
+         *  |
+         *  -> C
+         */
         dfs.graph.put(a, asList(b, c));
-        dfs.graph.put(b, asList(a, d));
-        dfs.graph.put(c, asList(a));
-        dfs.graph.put(d, asList(b));
+        dfs.graph.put(b, asList(d));
+        dfs.graph.put(d, asList());
+        dfs.graph.put(c, asList());
 
-        List<Node> r = dfs.dfs("A");  //A -> C -> B -> D
-        assertEquals(Lists.newArrayList(a, c, b, d), r);
+        List<Node> r = dfs.dfs("A");
+        assertEquals(Lists.newArrayList(a, b, d, c), r);
 
         dfs.order.clear();
-        List<Node> r2 = dfs.dfs("B");  //B -> D -> A ->C
-        assertEquals(Lists.newArrayList(b, d, a, c), r);
+        List<Node> r2 = dfs.dfs("B");
+        assertEquals(Lists.newArrayList(b, d, a, c), r2);
+
+        dfs.order.clear();
+        List<Node> r3 = dfs.dfs("D");
+        assertEquals(Lists.newArrayList(d, a, b, c), r3);
     }
 }

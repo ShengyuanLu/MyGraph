@@ -29,16 +29,17 @@ public class DFS {
         nodes.addAll(graph.keySet().stream()
                 .filter(n -> !n.name.equals(start))
                 .collect(Collectors.toSet()));
+
         for (Node node : nodes) {
             if (node.dfsStatus == Node.DFSStatus.NOT_VISIT)
                visit(node);
         }
 
-        Collections.reverse(order);
         return order;
     }
 
     void visit(Node node) {
+        order.add(node);
         node.dfsStatus = Node.DFSStatus.VISITING;
         graph.get(node).stream()
                 .forEach(
@@ -49,6 +50,5 @@ public class DFS {
                         }
                 );
         node.dfsStatus = Node.DFSStatus.VISITED;
-        order.add(node);
     }
 }
