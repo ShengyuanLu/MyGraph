@@ -39,6 +39,21 @@ public class DFSTest {
     }
 
     @Test
+    public void testCircle() {
+        DFS dfs = new DFS();
+
+        Node a = new Node("A", 0);
+        Node b = new Node("B", 0);
+        Node c = new Node("C", 0);
+        dfs.graph.put(a, asList(b));
+        dfs.graph.put(b, asList(c));
+        dfs.graph.put(c, asList(a));
+
+        List<Node> r = dfs.dfs("A");  //A -> B -> C
+        assertEquals(Lists.newArrayList(a, b, c), r);
+    }
+
+    @Test
     public void test() {
 
         DFS dfs = new DFS();
