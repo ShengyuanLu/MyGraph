@@ -1,4 +1,5 @@
 
+import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,6 +21,22 @@ public class DFSTest {
         List<Node> r = dfs.dfs("A");  //A -> B
         Assert.assertEquals(a, r.get(0));
         Assert.assertEquals(b, r.get(1));
+    }
+
+
+    @Test
+    public void testLinear() {
+        DFS dfs = new DFS();
+
+        Node a = new Node("A", 0);
+        Node b = new Node("B", 0);
+        Node c = new Node("C", 0);
+        dfs.graph.put(a, Arrays.asList(b));
+        dfs.graph.put(b, Arrays.asList(c));
+        dfs.graph.put(c, Arrays.asList());
+
+        List<Node> r = dfs.dfs("A");  //A -> B -> C
+        Assert.assertEquals(Lists.newArrayList(a, b, c), r);
     }
 
     @Test
