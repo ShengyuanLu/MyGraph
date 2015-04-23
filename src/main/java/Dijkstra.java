@@ -1,14 +1,16 @@
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import java.util.*;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Dijkstra {
 
-    Map<Node, List<Node>> graph = new LinkedHashMap<>();
-    List<Node> bigSQueue = new ArrayList<>();
+    Map<Node, List<Node>> graph = Maps.newHashMap();
+    List<Node> bigSQueue = Lists.newArrayList();
 
     static public class Node {
         String name;
@@ -32,7 +34,6 @@ public class Dijkstra {
             Node qElement = (Node) o;
 
             return name.equals(qElement.name);
-
         }
 
         @Override
@@ -43,17 +44,15 @@ public class Dijkstra {
 
     List<Node> dijkstra(String start, String end) {
 
-        LinkedHashMap<Node, Node> path = new LinkedHashMap<>();
+        LinkedHashMap<Node, Node> path = Maps.newLinkedHashMap();
         bigSQueue.addAll(
                 graph.keySet().stream()
                         .filter(node -> !node.name.equals(start))
                         .collect(Collectors.toList())
         );
 
-        Node top = graph.keySet().stream()
-                .filter(node -> node.name.equals(start))
-                .findFirst()
-                .get();
+        Node top = firstOf(graph.keySet().stream()
+                              .filter(node -> node.name.equals(start)));
 
         path.put(top, null);   //v -> k
         while (!bigSQueue.isEmpty()) {
@@ -68,10 +67,9 @@ public class Dijkstra {
                 System.out.println("top.distance: " + top.distance + ", v.getDistance(): " + v.distance);
                 Integer alt = top.distance + v.distance;
 
-                Node candi = bigSQueue.stream()
-                        .filter(v::equals)
-                        .findFirst()
-                        .get();
+                Node candi = firstOf(bigSQueue.stream()
+                        .filter(v::equals));
+
                 int accumulate = candi.distance;
                 System.out.println("accumulate: " + accumulate);
 
@@ -85,9 +83,8 @@ public class Dijkstra {
                     .min((a, b) -> Integer.compare(a.distance, b.distance))
                     .get();
 
-            Node prev = FluentIterable.from(path.keySet())
-                    .last()
-                    .get();
+            Node prev = lastOf(path.keySet());
+
             path.put(top, prev);
             if (top.name.equals(end)) {
                 if(top.distance == Integer.MAX_VALUE) {
@@ -102,7 +99,7 @@ public class Dijkstra {
     }
 
     List<Node> parse(LinkedHashMap<Node, Node> path, Node end) {
-        List<Node> result = new ArrayList<>();
+        List<Node> result = Lists.newArrayList();
 
         Node n = end;
         while(path.get(n) != null) {
@@ -110,14 +107,25 @@ public class Dijkstra {
             n = path.get(n);
         }
 
-        result.add(
-                FluentIterable.from(path.keySet())
-                .first()
-                .get()
-        );
+        result.add(firstOf(path.keySet()));
         Collections.reverse(result);
         System.out.println("return: " + result);
         return result;
     }
 
+    <T> T firstOf(Collection<T> c) {
+         return FluentIterable.from(c)
+                 .first()
+                 .get();
+    }
+
+    <T> T firstOf(Stream<T> s) {
+        return s.findFirst().get();
+    }
+
+    <T> T lastOf(Collection<T> c) {
+        return FluentIterable.from(c)
+                .last()
+                .get();
+    }
 }
