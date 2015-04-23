@@ -3,13 +3,13 @@ public class Node {
 
     String name;
     int distance = 0;
-    Color color = Color.WHITE;
+    DFSStatus dfsStatus = DFSStatus.NOT_VISIT;
 
     /**For dfs **/
-    public enum Color {
-        WHITE,
-        GREY,
-        BLACK;
+    public enum DFSStatus {
+        NOT_VISIT,
+        VISITING,
+        VISITED
     }
 
     public Node(String name, int distance) {

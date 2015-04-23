@@ -17,7 +17,7 @@ public class DFS {
     List<Node> dfs(String start) {
 
         graph.keySet().stream()
-                .forEach(n -> n.color = Node.Color.WHITE);
+                .forEach(n -> n.dfsStatus = Node.DFSStatus.NOT_VISIT);
 
         Set<Node> nodes = Sets.newLinkedHashSet();
         Node startNode = graph.keySet().stream()
@@ -30,7 +30,7 @@ public class DFS {
                 .filter(n -> !n.name.equals(start))
                 .collect(Collectors.toSet()));
         for (Node node : nodes) {
-            if (node.color == Node.Color.WHITE)
+            if (node.dfsStatus == Node.DFSStatus.NOT_VISIT)
                visit(node);
         }
 
@@ -39,16 +39,16 @@ public class DFS {
     }
 
     void visit(Node node) {
-        node.color = Node.Color.GREY;
+        node.dfsStatus = Node.DFSStatus.VISITING;
         graph.get(node).stream()
                 .forEach(
                         n -> {
-                            if (n.color == Node.Color.WHITE) {
+                            if (n.dfsStatus == Node.DFSStatus.NOT_VISIT) {
                                 visit(n);
                             }
                         }
                 );
-        node.color = Node.Color.BLACK;
+        node.dfsStatus = Node.DFSStatus.VISITED;
         order.add(node);
     }
 }
