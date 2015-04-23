@@ -45,5 +45,12 @@ public class DFSTest {
         Assert.assertEquals(c, r.get(1));
         Assert.assertEquals(b, r.get(2));
         Assert.assertEquals(d, r.get(3));
+
+        dfs.order.clear();
+        List<Node> r2 = dfs.dfs("B");  //B -> D -> A ->C
+        Assert.assertEquals(b, r.get(0));
+        Assert.assertEquals(d, r.get(1));
+        Assert.assertEquals(a, r.get(2));
+        Assert.assertEquals(c, r.get(3));
     }
 }

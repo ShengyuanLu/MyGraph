@@ -16,13 +16,16 @@ public class DFS {
 
     List<Node> dfs(String start) {
 
+        graph.keySet().stream()
+                .forEach(n -> n.color = Node.Color.WHITE);
+
         Set<Node> nodes = Sets.newLinkedHashSet();
         Node startNode = graph.keySet().stream()
                 .filter(n -> n.name.equals(start))
                 .findFirst()
                 .get();
 
-        nodes.add(startNode);
+        nodes.add(startNode); //First as first
         nodes.addAll(graph.keySet().stream()
                 .filter(n -> !n.name.equals(start))
                 .collect(Collectors.toSet()));
