@@ -2,7 +2,7 @@
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,8 +19,7 @@ public class DFSTest {
         dfs.graph.put(b, Arrays.asList(a));
 
         List<Node> r = dfs.dfs("A");  //A -> B
-        Assert.assertEquals(a, r.get(0));
-        Assert.assertEquals(b, r.get(1));
+        assertEquals(Lists.newArrayList(a, b), r);
     }
 
 
@@ -36,7 +35,7 @@ public class DFSTest {
         dfs.graph.put(c, Arrays.asList());
 
         List<Node> r = dfs.dfs("A");  //A -> B -> C
-        Assert.assertEquals(Lists.newArrayList(a, b, c), r);
+        assertEquals(Lists.newArrayList(a, b, c), r);
     }
 
     @Test
@@ -52,9 +51,7 @@ public class DFSTest {
         dfs.graph.put(c, Arrays.asList(b));
 
         List<Node> r = dfs.dfs("A");  //A -> B -> C
-        Assert.assertEquals(a, r.get(0));
-        Assert.assertEquals(b, r.get(1));
-        Assert.assertEquals(c, r.get(2));
+        assertEquals(Lists.newArrayList(a, b, c), r);
     }
 
     @Test
@@ -73,16 +70,10 @@ public class DFSTest {
         dfs.graph.put(d, Arrays.asList(b));
 
         List<Node> r = dfs.dfs("A");  //A -> C -> B -> D
-        Assert.assertEquals(a, r.get(0));
-        Assert.assertEquals(c, r.get(1));
-        Assert.assertEquals(b, r.get(2));
-        Assert.assertEquals(d, r.get(3));
+        assertEquals(Lists.newArrayList(a, c, b, d), r);
 
         dfs.order.clear();
         List<Node> r2 = dfs.dfs("B");  //B -> D -> A ->C
-        Assert.assertEquals(b, r.get(0));
-        Assert.assertEquals(d, r.get(1));
-        Assert.assertEquals(a, r.get(2));
-        Assert.assertEquals(c, r.get(3));
+        assertEquals(Lists.newArrayList(b, d, a, c), r);
     }
 }
