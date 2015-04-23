@@ -3,6 +3,14 @@ public class Node {
 
     String name;
     int distance = 0;
+    Color color = Color.WHITE;
+
+    /**For dfs **/
+    public enum Color {
+        WHITE,
+        GREY,
+        BLACK;
+    }
 
     public Node(String name, int distance) {
         this.distance = distance;
