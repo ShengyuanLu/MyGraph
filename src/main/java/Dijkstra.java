@@ -1,6 +1,4 @@
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.*;
 
 import java.util.*;
 
@@ -45,14 +43,12 @@ public class Dijkstra {
     List<Node> dijkstra(String start, String end) {
 
         LinkedHashMap<Node, Node> path = Maps.newLinkedHashMap();
+
         bigSQueue.addAll(
-                graph.keySet().stream()
-                        .filter(node -> !node.name.equals(start))
-                        .collect(Collectors.toList())
+                Sets.filter(graph.keySet(), node -> !node.name.equals(start))
         );
 
-        Node top = firstOf(graph.keySet().stream()
-                              .filter(node -> node.name.equals(start)));
+        Node top = Iterables.find(graph.keySet(), node -> node.name.equals(start));
 
         path.put(top, null);   //v -> k
         while (!bigSQueue.isEmpty()) {
