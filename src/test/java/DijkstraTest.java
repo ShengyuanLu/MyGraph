@@ -11,13 +11,13 @@ public class DijkstraTest {
     public void testDirect() {
         Dijkstra dijkstra = new Dijkstra();
 
-        dijkstra.graph.put(new Dijkstra.Node("A", 0), Arrays.asList(new Dijkstra.Node("B", 2), new Dijkstra.Node("C", 1)));
-        dijkstra.graph.put(new Dijkstra.Node("B", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("A", 2), new Dijkstra.Node("D", 2)));
-        dijkstra.graph.put(new Dijkstra.Node("C", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("A", 1), new Dijkstra.Node("D", 3)));
-        dijkstra.graph.put(new Dijkstra.Node("D", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("B", 2), new Dijkstra.Node("C", 3)));
+        dijkstra.graph.put(new Node("A", 0), Arrays.asList(new Node("B", 2), new Node("C", 1)));
+        dijkstra.graph.put(new Node("B", Integer.MAX_VALUE), Arrays.asList(new Node("A", 2), new Node("D", 2)));
+        dijkstra.graph.put(new Node("C", Integer.MAX_VALUE), Arrays.asList(new Node("A", 1), new Node("D", 3)));
+        dijkstra.graph.put(new Node("D", Integer.MAX_VALUE), Arrays.asList(new Node("B", 2), new Node("C", 3)));
 
-        List<Dijkstra.Node> r = dijkstra.dijkstra("A", "C");  //A -> C
-        Dijkstra.Node nodeC = Iterables.getLast(r);
+        List<Node> r = dijkstra.dijkstra("A", "C");  //A -> C
+        Node nodeC = Iterables.getLast(r);
         Assert.assertEquals("C", nodeC.name);
         Assert.assertEquals(1, nodeC.distance);
     }
@@ -26,13 +26,13 @@ public class DijkstraTest {
     public void testUnDirect() {
         Dijkstra dijkstra = new Dijkstra();
 
-        dijkstra.graph.put(new Dijkstra.Node("A", 0), Arrays.asList(new Dijkstra.Node("B", 1), new Dijkstra.Node("C", 10)));
-        dijkstra.graph.put(new Dijkstra.Node("B", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("A", 1), new Dijkstra.Node("D", 2)));
-        dijkstra.graph.put(new Dijkstra.Node("C", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("A", 10), new Dijkstra.Node("D", 3)));
-        dijkstra.graph.put(new Dijkstra.Node("D", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("B", 2), new Dijkstra.Node("C", 3)));
+        dijkstra.graph.put(new Node("A", 0), Arrays.asList(new Node("B", 1), new Node("C", 10)));
+        dijkstra.graph.put(new Node("B", Integer.MAX_VALUE), Arrays.asList(new Node("A", 1), new Node("D", 2)));
+        dijkstra.graph.put(new Node("C", Integer.MAX_VALUE), Arrays.asList(new Node("A", 10), new Node("D", 3)));
+        dijkstra.graph.put(new Node("D", Integer.MAX_VALUE), Arrays.asList(new Node("B", 2), new Node("C", 3)));
 
-        List<Dijkstra.Node> r = dijkstra.dijkstra("A", "C");  //A -> B -> D -> C
-        Dijkstra.Node nodeC = Iterables.getLast(r);
+        List<Node> r = dijkstra.dijkstra("A", "C");  //A -> B -> D -> C
+        Node nodeC = Iterables.getLast(r);
         Assert.assertEquals("C", nodeC.name);
         Assert.assertEquals(6, nodeC.distance);
     }
@@ -42,12 +42,12 @@ public class DijkstraTest {
     public void testNoReach() {
         Dijkstra dijkstra = new Dijkstra();
 
-        dijkstra.graph.put(new Dijkstra.Node("A", 0), Arrays.asList(new Dijkstra.Node("B", 1)));
-        dijkstra.graph.put(new Dijkstra.Node("B", Integer.MAX_VALUE), Arrays.asList(new Dijkstra.Node("A", 1)));
-        dijkstra.graph.put(new Dijkstra.Node("C", Integer.MAX_VALUE), Arrays.asList( ));
+        dijkstra.graph.put(new Node("A", 0), Arrays.asList(new Node("B", 1)));
+        dijkstra.graph.put(new Node("B", Integer.MAX_VALUE), Arrays.asList(new Node("A", 1)));
+        dijkstra.graph.put(new Node("C", Integer.MAX_VALUE), Arrays.asList( ));
 
-        List<Dijkstra.Node> r = dijkstra.dijkstra("A", "C");
-        Dijkstra.Node nodeC = Iterables.getLast(r);
+        List<Node> r = dijkstra.dijkstra("A", "C");
+        Node nodeC = Iterables.getLast(r);
         Assert.assertEquals("C", nodeC.name);
         Assert.assertEquals(Integer.MAX_VALUE, nodeC.distance);
     }
