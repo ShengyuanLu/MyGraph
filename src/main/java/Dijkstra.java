@@ -1,6 +1,8 @@
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
 
 import java.util.*;
+
 import java.util.stream.Collectors;
 
 public class Dijkstra {
@@ -19,8 +21,7 @@ public class Dijkstra {
 
         @Override
         public String toString() {
-            return "Node{" +  name  + ", distance=" + distance +
-                    '}';
+            return "Node{" +  name  + ", distance=" + (distance == Integer.MAX_VALUE ? "infinite" : distance) + '}';
         }
 
         @Override
@@ -84,19 +85,19 @@ public class Dijkstra {
                     .min((a, b) -> Integer.compare(a.distance, b.distance))
                     .get();
 
-
             Node prev = FluentIterable.from(path.keySet())
                     .last()
                     .get();
             path.put(top, prev);
             if (top.name.equals(end)) {
-               System.out.println("return:" + path);
+                if(top.distance == Integer.MAX_VALUE) {
+                    return Lists.newArrayList(top);
+                }
                 return parse(path, top);
             }
             bigSQueue.remove(top);
         }
 
-        System.out.println("return:" + path);
         return null;
     }
 
@@ -115,6 +116,7 @@ public class Dijkstra {
                 .get()
         );
         Collections.reverse(result);
+        System.out.println("return: " + result);
         return result;
     }
 
