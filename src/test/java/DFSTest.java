@@ -3,7 +3,7 @@ import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.List;
 
 public class DFSTest {
@@ -15,8 +15,8 @@ public class DFSTest {
         Node a = new Node("A", 0);
         Node b = new Node("B", 0);
 
-        dfs.graph.put(a, Arrays.asList(b));
-        dfs.graph.put(b, Arrays.asList(a));
+        dfs.graph.put(a, asList(b));
+        dfs.graph.put(b, asList(a));
 
         List<Node> r = dfs.dfs("A");  //A -> B
         assertEquals(Lists.newArrayList(a, b), r);
@@ -30,9 +30,9 @@ public class DFSTest {
         Node a = new Node("A", 0);
         Node b = new Node("B", 0);
         Node c = new Node("C", 0);
-        dfs.graph.put(a, Arrays.asList(b));
-        dfs.graph.put(b, Arrays.asList(c));
-        dfs.graph.put(c, Arrays.asList());
+        dfs.graph.put(a, asList(b));
+        dfs.graph.put(b, asList(c));
+        dfs.graph.put(c, asList());
 
         List<Node> r = dfs.dfs("A");  //A -> B -> C
         assertEquals(Lists.newArrayList(a, b, c), r);
@@ -46,9 +46,9 @@ public class DFSTest {
         Node a = new Node("A", 0);
         Node b = new Node("B", 0);
         Node c = new Node("C", 0);
-        dfs.graph.put(a, Arrays.asList(b));
-        dfs.graph.put(b, Arrays.asList(a, c));
-        dfs.graph.put(c, Arrays.asList(b));
+        dfs.graph.put(a, asList(b));
+        dfs.graph.put(b, asList(a, c));
+        dfs.graph.put(c, asList(b));
 
         List<Node> r = dfs.dfs("A");  //A -> B -> C
         assertEquals(Lists.newArrayList(a, b, c), r);
@@ -64,10 +64,10 @@ public class DFSTest {
         Node c = new Node("C", 0);
         Node d = new Node("D", 0);
 
-        dfs.graph.put(a, Arrays.asList(b, c));
-        dfs.graph.put(b, Arrays.asList(a, d));
-        dfs.graph.put(c, Arrays.asList(a));
-        dfs.graph.put(d, Arrays.asList(b));
+        dfs.graph.put(a, asList(b, c));
+        dfs.graph.put(b, asList(a, d));
+        dfs.graph.put(c, asList(a));
+        dfs.graph.put(d, asList(b));
 
         List<Node> r = dfs.dfs("A");  //A -> C -> B -> D
         assertEquals(Lists.newArrayList(a, c, b, d), r);
