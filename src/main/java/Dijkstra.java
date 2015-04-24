@@ -31,7 +31,7 @@ public class Dijkstra {
 
             for (Node v : adj) {
                 System.out.println("top.distance: " + top.distance + ", v.getDistance(): " + v.distance);
-                Integer alt = top.distance + v.distance;
+                Integer sum = top.distance + v.distance;
 
                 Node candi = firstOf(bigSQueue.stream()
                         .filter(v::equals));
@@ -39,8 +39,8 @@ public class Dijkstra {
                 int accumulate = candi.distance;
                 System.out.println("accumulate: " + accumulate);
 
-                if (alt < accumulate) {
-                    candi.distance = alt;
+                if (sum < accumulate) {
+                    candi.distance = sum;
                 }
             }
 
