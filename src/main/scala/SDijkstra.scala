@@ -2,9 +2,7 @@ import scala.collection.mutable.LinkedHashMap
 
 object SDijkstra {
 
-  implicit def ordering(n: SNode): Ordering[SNode] = {
-    Ordering.by(_.distance)
-  }
+
 
   def dijkstra(graph: Map[SNode, List[SNode]], start: String, end: String): List[Node] = {
     val path = new LinkedHashMap[SNode, SNode]
@@ -27,7 +25,7 @@ object SDijkstra {
 
       )
 
-      top = bigSQueue.min
+      top = bigSQueue.minBy(_.distance)
       path += (top -> path.keySet.last)
       if (top.name == end) {
         if (top.distance == Integer.MAX_VALUE) List(top)
