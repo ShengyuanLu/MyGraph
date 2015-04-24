@@ -6,6 +6,7 @@ object SDijkstra {
     val path = new LinkedHashMap[SNode, SNode]
     var bigSQueue = graph.keySet.filter(_.name != start).toList
     var top = graph.keySet.find(_.name == start).get
+    top.distance = 0
     path += (top -> null)
 
     while (bigSQueue.nonEmpty) {
