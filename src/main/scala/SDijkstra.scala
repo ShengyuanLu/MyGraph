@@ -35,7 +35,7 @@ object SDijkstra {
   def parse(path: LinkedHashMap[SNode, SNode], end: SNode): List[SNode] = {
     var result = List[SNode]()
     var n = end
-    while (path.get(n) != None) {
+    while (path.get(n).isDefined) {
       result = result :+ n
       n = path.get(n).get
     }
