@@ -1,7 +1,6 @@
 
 
 import java.util.List;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,13 +12,14 @@ public class HuffmanTree {
         );
 
         HNode root = null;
-        while (nodes.stream().anyMatch(n -> !n.isBuilt && n.parent == null)) {
+        int builtIndex = 0;
+        while (nodes.size() > 1) {
             List<HNode> mins = nodes.stream()
                     .sorted()
                     .limit(2)
                     .collect(Collectors.toList());
 
-            HNode builtNode = new HNode();
+            HNode builtNode = new HNode(builtIndex++);
             builtNode.left = mins.get(0);
             builtNode.right = mins.get(1);
             mins.get(0).parent = builtNode;
@@ -47,8 +47,8 @@ class HNode implements Comparable<HNode> {
     HNode right;
     boolean isBuilt = false;
 
-    public HNode() {
-        name = "builtIn";
+    public HNode(int index) {
+        name = "builtIn"+index;
         isBuilt = true;
     }
 
@@ -57,14 +57,37 @@ class HNode implements Comparable<HNode> {
         this.weight = weight;
     }
 
+    static int layer = -1;
+    public int sum() {
+        layer++;
+        int myWeight = 0;
+        if(!isBuilt) {
+            myWeight = weight * layer;
+        }
+
+        int leftW = 0;
+        if(left!=null) {
+            leftW = left.sum();
+            layer--;
+        }
+
+
+        int rRight= 0;
+
+        if(right!=null) {
+            rRight = right.sum();
+            layer--;
+        }
+        //layer--;
+        return myWeight + leftW +rRight;
+    }
+
     @Override
     public String toString() {
-        return "{" +
-                "name='" + name + '\'' +
+        return  "{\n"+ name   +
                 ", weight=" + weight +
                 ", left=" + left +
-                ", right=" + right +
-                ", isBuilt=" + isBuilt + "}";
+                ", right=" + right + "}";
     }
 
     @Override
