@@ -19,6 +19,7 @@ public class HuffmanTree {
                     .limit(2)
                     .collect(Collectors.toList());
 
+            mins.stream().forEach(HuffmanTree::increase);
             HNode builtNode = new HNode(builtIndex++);
             builtNode.left = mins.get(0);
             builtNode.right = mins.get(1);
@@ -35,7 +36,14 @@ public class HuffmanTree {
         }
 
         return root;
+    }
 
+    static void increase(HNode node) {
+        node.layers++;
+        if (node.left != null)
+            increase(node.left);
+        if (node.right != null)
+            increase(node.right);
     }
 }
 
@@ -45,10 +53,11 @@ class HNode implements Comparable<HNode> {
     HNode parent;
     HNode left;
     HNode right;
+    int layers = 0;
     boolean isBuilt = false;
 
     public HNode(int index) {
-        name = "builtIn"+index;
+        name = "builtIn" + index;
         isBuilt = true;
     }
 
@@ -57,34 +66,29 @@ class HNode implements Comparable<HNode> {
         this.weight = weight;
     }
 
-    static int layer = -1;
     public int sum() {
-        layer++;
+
         int myWeight = 0;
-        if(!isBuilt) {
-            myWeight = weight * layer;
+        if (!isBuilt) {
+            myWeight = weight * layers;
         }
 
         int leftW = 0;
-        if(left!=null) {
+        if (left != null) {
             leftW = left.sum();
-            layer--;
         }
 
-
-        int rRight= 0;
-
-        if(right!=null) {
+        int rRight = 0;
+        if (right != null) {
             rRight = right.sum();
-            layer--;
         }
-        //layer--;
-        return myWeight + leftW +rRight;
+
+        return myWeight + leftW + rRight;
     }
 
     @Override
     public String toString() {
-        return  "{\n"+ name   +
+        return "{\n" + name +
                 ", weight=" + weight +
                 ", left=" + left +
                 ", right=" + right + "}";

@@ -11,7 +11,6 @@ public class HuffmanTreeTest {
 
     @Test
     public void testAB() {
-        HNode.layer = -1;
         Set<HNode> nodes = Sets.newHashSet(new HNode("A", 2), new HNode("B", 3));
         HNode tree = HuffmanTree.buildHuffmanTree(nodes);
         assertEquals(5, tree.sum());
@@ -19,7 +18,6 @@ public class HuffmanTreeTest {
 
     @Test
     public void testABC() {
-        HNode.layer = -1;
         Set<HNode> nodes = Sets.newHashSet(
                 new HNode("A", 2),
                 new HNode("B", 3),
@@ -31,7 +29,6 @@ public class HuffmanTreeTest {
 
     @Test
     public void testComplex() {
-        HNode.layer = -1;
         Set<HNode> nodes = Sets.newHashSet(
                 new HNode("A", 5),
                 new HNode("B", 2),
